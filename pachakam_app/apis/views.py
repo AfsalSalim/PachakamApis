@@ -6,6 +6,7 @@ from django.shortcuts import render
 from .serializers import *
 from rest_framework import generics
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -68,7 +69,17 @@ class ListDishes(generics.GenericAPIView):
 
         category_id = self.kwargs.get('category_pk')
         dishes = Dish.objects.filter(category__id=category_id)
-        serializer = self.get_serializer(dishes, many=True)
+        page_num = request.GET.get('page', 1)
+        paginator = Paginator(dishes, 1)
+        try:
+            paginated_entries = paginator.page(int(page_num))
+        except PageNotAnInteger as e:
+            # log("Error", "Reports", "Error while paginating entries " + str(e))
+            paginated_entries = paginator.page(1)
+        except EmptyPage:
+            paginated_entries = paginator.page(paginator.num_pages)
+        # return paginated_entries
+        serializer = self.get_serializer(paginated_entries, many=True)
         if len(dishes) > 0:
             return Response({"status": "ok", "data": serializer.data})
         else:
@@ -101,3 +112,26 @@ class DishDetails(generics.GenericAPIView):
         except Dish.DoesNotExist:
             return Response({"status": "Dish with this id doesnot exist",
                              "data": []})
+
+
+class StepDetails(generics.GenericAPIView):
+
+    """
+        View for getting the step details
+    """
+
+    serializer_class = StepDetailedSerialiser
+
+    def get(self, request, *args, **kwargs):
+
+        """
+            get method for the view
+        """
+
+        try:
+            step_id = self.kwargs.get("step_id")
+            steps = step.objects.get(id=step_id)
+            serializer = self.get_serializer(steps)
+            return Response({"status": "ok", "data": serializer.data})
+        except step.DoesNotExist:
+            return Response({"status": "Step with this id exists","data":[]})

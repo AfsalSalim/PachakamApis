@@ -77,6 +77,7 @@ class step(models.Model):
     step_name = models.CharField(max_length=150)
     time = models.FloatField()
     dish = models.ForeignKey(Dish)
+    description = models.TextField(null=True, default=None)
     def __str__(self):
         return self.dish.name + " " + self.step_name
     class Meta:

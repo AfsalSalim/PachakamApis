@@ -13,8 +13,11 @@ from .models import *
 class IngridientListInline(admin.TabularInline):
     model = IngridientList
 
+class StepInline(admin.TabularInline):
+	model = step
+
 class GalleryAdmin(admin.ModelAdmin):
-    inlines = [ IngridientListInline, ]
+    inlines = [ IngridientListInline, StepInline]
     # model = Dish
 
 
@@ -22,5 +25,5 @@ admin.site.register(Category)
 admin.site.register(Unit)
 admin.site.register(Dish,GalleryAdmin)
 admin.site.register(Ingridient)
-admin.site.register(IngridientList)
+# admin.site.register(IngridientList)
 admin.site.register(step)

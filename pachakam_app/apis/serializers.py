@@ -20,14 +20,55 @@ class DishlistSerializer(serializers.ModelSerializer):
         model = Dish
         fields = "__all__"
 
+class IngridientNameSerialiser(serializers.ModelSerializer):
+    """
+        Model serializer for getting the name of the 
+        ingridient for the dishes
+    """
 
+    class Meta:
+        model = Ingridient
+        fields = ("name",)
+
+class MeasurmentNameSerialiser(serializers.ModelSerializer):
+
+    """
+        Model serialiser for getting the name of the measurment unit
+    """
+
+    class Meta:
+        model = Unit
+        fields = ("name",)
+
+
+ 
 class IngridientListSerialiser(serializers.ModelSerializer):
     """
     Model serializer for the ingridient list
     """
+    ingridient = IngridientNameSerialiser()
+    unit = MeasurmentNameSerialiser()
 
     class Meta:
         model = IngridientList
+        fields = ("ingridient", "unit")
+
+
+class StepIdSerialiser(serializers.ModelSerializer):
+    """
+        Model Serialiser of returning the step id of the selected dish
+    """
+    class Meta:
+        model = step
+        fields = ("id",)
+
+
+class StepDetailedSerialiser(serializers.ModelSerializer):
+    """
+        Model serializer for detailed steps
+    """
+    class Meta:
+        model = step
         fields = "__all__"
 
 
@@ -37,11 +78,12 @@ class DishDetialsSerializer(serializers.ModelSerializer):
     """
 
     ingridients_list = serializers.SerializerMethodField()
+    step_ids = serializers.SerializerMethodField()
 
     class Meta:
         model = Dish
         fields = ("id", "name", "total_time", "type",
-                  "category", "ingridients_list")
+                  "category", "ingridients_list", "step_ids")
 
     def get_ingridients_list(self, obj):
         try:
@@ -50,6 +92,15 @@ class DishDetialsSerializer(serializers.ModelSerializer):
             return serializer.data
         except IngridientList.DoesNotExist:
             return []
+
+    def get_step_ids(self, obj):
+        try:
+            steps = step.objects.filter(dish=obj)
+            serializer = StepIdSerialiser(steps, many=True)
+            return serializer.data
+        except step.DoesNotExist:
+            return []
+
 
 
 class categoryDetailedSerialiser(serializers.ModelSerializer):
