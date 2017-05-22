@@ -2,7 +2,9 @@ from django.db import models
 
 class Category(models.Model):
 
-    """ This holds the category detail of the food"""
+    """ 
+        This holds the category detail of the food
+    """
 
     name = models.CharField(max_length =150, unique=True)
 
@@ -16,7 +18,10 @@ class Category(models.Model):
  
 class Unit(models.Model):
 
-    """ This holdes the measurement unit"""
+    """ 
+        This holdes the measurement unit
+    """
+
     name = models.CharField(max_length =150, unique=True)
 
     def __str__(self):
@@ -29,7 +34,9 @@ class Unit(models.Model):
 
 class Ingridient(models.Model):
 
-    """ This holdes the ingriedent"""
+    """ 
+        This holdes the ingriedent
+    """
 
     name = models.CharField(max_length =150, unique=True)
     
@@ -41,7 +48,11 @@ class Ingridient(models.Model):
         verbose_name_plural = "Ingridients"
 
 class IngridientList(models.Model):
-    """This holds the list of ingridinets """
+    
+    """
+        This holds the list of ingridinets 
+    """
+
     ingridient = models.ForeignKey(Ingridient)
     unit = models.ForeignKey(Unit)
     dish = models.ForeignKey('Dish')
@@ -55,7 +66,11 @@ class IngridientList(models.Model):
 
 
 class Dish(models.Model):
-    """ This holds the details of the dish """
+
+    """ 
+        This holds the details of the dish 
+    """
+    
     name = models.CharField(max_length=150,unique=True)
     total_time = models.FloatField()
     # image = models.ImageField(upload_to="media")

@@ -4,7 +4,9 @@ from .models import *
 
 class categoryListSerilizers(serializers.ModelSerializer):
 
-    """Model serializer for listing cateogories"""
+    """
+        Model serializer for listing cateogories
+    """
 
     class Meta:
         model = Category
@@ -12,8 +14,9 @@ class categoryListSerilizers(serializers.ModelSerializer):
 
 
 class DishlistSerializer(serializers.ModelSerializer):
+
     """
-    Model serialiser for listing all the dishes
+        Model serialiser for listing all the dishes
     """
 
     class Meta:
@@ -21,6 +24,7 @@ class DishlistSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class IngridientNameSerialiser(serializers.ModelSerializer):
+    
     """
         Model serializer for getting the name of the 
         ingridient for the dishes
@@ -43,6 +47,7 @@ class MeasurmentNameSerialiser(serializers.ModelSerializer):
 
  
 class IngridientListSerialiser(serializers.ModelSerializer):
+    
     """
     Model serializer for the ingridient list
     """
@@ -55,6 +60,7 @@ class IngridientListSerialiser(serializers.ModelSerializer):
 
 
 class StepIdSerialiser(serializers.ModelSerializer):
+    
     """
         Model Serialiser of returning the step id of the selected dish
     """
@@ -64,6 +70,7 @@ class StepIdSerialiser(serializers.ModelSerializer):
 
 
 class StepDetailedSerialiser(serializers.ModelSerializer):
+    
     """
         Model serializer for detailed steps
     """
@@ -73,6 +80,7 @@ class StepDetailedSerialiser(serializers.ModelSerializer):
 
 
 class DishDetialsSerializer(serializers.ModelSerializer):
+    
     """
         Model serializer for detailed view for the dishes
     """
@@ -86,6 +94,11 @@ class DishDetialsSerializer(serializers.ModelSerializer):
                   "category", "ingridients_list", "step_ids")
 
     def get_ingridients_list(self, obj):
+        
+        """
+            Method for returning the ingridient list
+        """
+        
         try:
             ingridients_list = IngridientList.objects.filter(dish=obj)
             serializer = IngridientListSerialiser(ingridients_list, many=True)
@@ -94,6 +107,11 @@ class DishDetialsSerializer(serializers.ModelSerializer):
             return []
 
     def get_step_ids(self, obj):
+
+        """
+            Method for returning the step ids of the current step
+        """
+
         try:
             steps = step.objects.filter(dish=obj)
             serializer = StepIdSerialiser(steps, many=True)
@@ -104,6 +122,7 @@ class DishDetialsSerializer(serializers.ModelSerializer):
 
 
 class categoryDetailedSerialiser(serializers.ModelSerializer):
+    
     """
         Model Serialiser for category 
     """
