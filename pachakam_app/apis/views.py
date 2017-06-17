@@ -74,14 +74,17 @@ class ListDishes(generics.GenericAPIView):
         try:
             paginated_entries = paginator.page(int(page_num))
         except PageNotAnInteger as e:
-            # log("Error", "Reports", "Error while paginating entries " + str(e))
             paginated_entries = paginator.page(1)
         except EmptyPage:
             paginated_entries = paginator.page(paginator.num_pages)
-        # return paginated_entries
         serializer = self.get_serializer(paginated_entries, many=True)
         if len(dishes) > 0:
-            return Response({"status": "ok", "data": serializer.data})
+            if int(page_num) < paginator.num_pages:
+                load_more_required = True
+            else:
+                load_more_required = False
+            return Response({"status": "ok", "data": serializer.data,
+                             "load_more_required": load_more_required})
         else:
             return Response({"status": "No dishes in this category",
                              "data": []})
@@ -135,3 +138,4 @@ class StepDetails(generics.GenericAPIView):
             return Response({"status": "ok", "data": serializer.data})
         except step.DoesNotExist:
             return Response({"status": "Step with this id exists","data":[]})
+

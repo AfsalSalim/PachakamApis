@@ -73,10 +73,13 @@ class Dish(models.Model):
     
     name = models.CharField(max_length=150,unique=True)
     total_time = models.FloatField()
-    # image = models.ImageField(upload_to="media")
+    image = models.ImageField(upload_to="media",blank=True, null=True)
     category = models.ForeignKey(Category)
     type_choice = ((0, "veg"),(1, "non-veg"))
     type = models.IntegerField(default=0,choices=type_choice)
+    book = models.ForeignKey('appuser.Book')
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
    
     def __str__(self):
         return self.name
@@ -87,13 +90,18 @@ class Dish(models.Model):
 
 
 class step(models.Model):
-    """ This holds the details of the step for the dish"""
+
+    """ 
+        This holds the details of the step for the dish
+    """
 
     step_name = models.CharField(max_length=150)
     time = models.FloatField()
     dish = models.ForeignKey(Dish)
     description = models.TextField(null=True, default=None)
+
     def __str__(self):
         return self.dish.name + " " + self.step_name
+        
     class Meta:
         unique_together = ('dish', 'step_name')
