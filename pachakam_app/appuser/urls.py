@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from .views import *
 
 urlpatterns = [
-    url(r'^books/$', BookListView.as_view()),
-    url(r'books/(?P<book_pk>[0-9]+)',BookDetailed.as_view())
+    re_path(r'^list/$', BookListView.as_view()),
+    # url(r'books/(?P<book_pk>[0-9]+)',BookDetailed.as_view())
 ]

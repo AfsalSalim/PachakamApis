@@ -22,29 +22,13 @@ class BookListSerializer(serializers.ModelSerializer):
         serializer class for listing the all the books
     """
 
-    # user = UserSerializer()
+    user = UserSerializer()
 
     class Meta:
 
         """
             Meta class for the serialiser
         """
-        model = Book
+        model = Kitchen
         # fields = ("id", "name", "like", "dislike","user", "image")
-        fields = "__all__"
-
-
-
-class BookDetailedSerializer(serializers.ModelSerializer):
-
-    """
-        Serilizers for detailed view of the book
-    """
-
-    class Meta:
-
-        """
-            Meta class for the serializer
-        """
-        model = Book
         fields = "__all__"

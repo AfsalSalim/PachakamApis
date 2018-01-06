@@ -2,15 +2,15 @@ from rest_framework import serializers
 from .models import *
 
 
-class categoryListSerilizers(serializers.ModelSerializer):
+# # class categoryListSerilizers(serializers.ModelSerializer):
 
-    """
-        Model serializer for listing cateogories
-    """
+# #     """
+# #         Model serializer for listing cateogories
+# #     """
 
-    class Meta:
-        model = Category
-        fields = "__all__"
+# #     class Meta:
+# #         model = Category
+# #         fields = "__all__"
 
 
 class DishlistSerializer(serializers.ModelSerializer):
@@ -23,26 +23,26 @@ class DishlistSerializer(serializers.ModelSerializer):
         model = Dish
         fields = "__all__"
 
-class IngridientNameSerialiser(serializers.ModelSerializer):
+# # class IngridientNameSerialiser(serializers.ModelSerializer):
     
-    """
-        Model serializer for getting the name of the 
-        ingridient for the dishes
-    """
+# #     """
+# #         Model serializer for getting the name of the 
+# #         ingridient for the dishes
+# #     """
 
-    class Meta:
-        model = Ingridient
-        fields = ("name",)
+# #     class Meta:
+# #         model = Ingridient
+# #         fields = ("name",)
 
-class MeasurmentNameSerialiser(serializers.ModelSerializer):
+# # class MeasurmentNameSerialiser(serializers.ModelSerializer):
 
-    """
-        Model serialiser for getting the name of the measurment unit
-    """
+# #     """
+# #         Model serialiser for getting the name of the measurment unit
+# #     """
 
-    class Meta:
-        model = Unit
-        fields = ("name",)
+# #     class Meta:
+# #         model = Unit
+# #         fields = ("name",)
 
 
  
@@ -51,12 +51,9 @@ class IngridientListSerialiser(serializers.ModelSerializer):
     """
     Model serializer for the ingridient list
     """
-    ingridient = IngridientNameSerialiser()
-    unit = MeasurmentNameSerialiser()
-
     class Meta:
-        model = IngridientList
-        fields = ("ingridient", "unit")
+        model = Ingridient
+        fields = "__all__"
 
 
 class StepIdSerialiser(serializers.ModelSerializer):
@@ -66,17 +63,17 @@ class StepIdSerialiser(serializers.ModelSerializer):
     """
     class Meta:
         model = step
-        fields = ("id",)
-
-
-class StepDetailedSerialiser(serializers.ModelSerializer):
-    
-    """
-        Model serializer for detailed steps
-    """
-    class Meta:
-        model = step
         fields = "__all__"
+
+
+# class StepDetailedSerialiser(serializers.ModelSerializer):
+    
+#     """
+#         Model serializer for detailed steps
+#     """
+#     class Meta:
+#         model = step
+#         fields = "__all__"
 
 
 class DishDetialsSerializer(serializers.ModelSerializer):
@@ -86,12 +83,11 @@ class DishDetialsSerializer(serializers.ModelSerializer):
     """
 
     ingridients_list = serializers.SerializerMethodField()
-    step_ids = serializers.SerializerMethodField()
+    steps = serializers.SerializerMethodField()
 
     class Meta:
         model = Dish
-        fields = ("id", "name", "total_time", "type",
-                  "category", "ingridients_list", "step_ids")
+        fields = "__all__"
 
     def get_ingridients_list(self, obj):
         
@@ -100,13 +96,13 @@ class DishDetialsSerializer(serializers.ModelSerializer):
         """
         
         try:
-            ingridients_list = IngridientList.objects.filter(dish=obj)
+            ingridients_list = Ingridient.objects.filter(dish=obj)
             serializer = IngridientListSerialiser(ingridients_list, many=True)
             return serializer.data
         except IngridientList.DoesNotExist:
             return []
 
-    def get_step_ids(self, obj):
+    def get_steps(self, obj):
 
         """
             Method for returning the step ids of the current step
@@ -121,12 +117,12 @@ class DishDetialsSerializer(serializers.ModelSerializer):
 
 
 
-class categoryDetailedSerialiser(serializers.ModelSerializer):
+# # class categoryDetailedSerialiser(serializers.ModelSerializer):
     
-    """
-        Model Serialiser for category 
-    """
+# #     """
+# #         Model Serialiser for category 
+# #     """
 
-    class Meta:
-        model = Category
-        fields = "__all__"
+# #     class Meta:
+# #         model = Category
+# #         fields = "__all__"

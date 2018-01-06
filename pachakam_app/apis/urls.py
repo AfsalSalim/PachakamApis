@@ -1,12 +1,9 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from .views import *
 
 urlpatterns = [
-    url(r'^categories/$', ListCategories.as_view()),
-    url(r'^categories/(?P<category_pk>[0-9]+)/$', CategoryDetailed.as_view()),
-    url(r'^categories/(?P<category_pk>[0-9]+)/dishes$', ListDishes.as_view()),
-    url(r'^categories/(?P<category_pk>[0-9]+)/dishes/(?P<dish_pk>[0-9]+)$', DishDetails.as_view()),
-    url(r'^step/(?P<step_id>[0-9]+)/$', StepDetails.as_view()),
-
+    re_path(r'(?P<book_pk>[0-9]+)/dishes',ListDishes.as_view()),
+    re_path(r'dishes/(?P<dish_pk>[0-9]+)',DishDetailed.as_view()),
+    # re_path(r'add_kitchen/$', AddKitchen.as_view())
 ]

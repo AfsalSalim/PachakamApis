@@ -18,7 +18,7 @@ class AppUser(AbstractUser):
     facebook_uid = models.CharField(max_length=100, default=None, null=True, blank=True)
 
 
-    def __unicode__(self):
+    def __str__(self):
         
         """ 
             return the display name
@@ -36,20 +36,20 @@ class AppUser(AbstractUser):
 
 
 
-class Book(models.Model):
+class Kitchen(models.Model):
 
     """
         Model for the book details of the user
     """
 
     name = models.CharField(max_length=100)
-    user = models.ForeignKey(AppUser)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     like = models.IntegerField(default=0)
     dislike = models.IntegerField(default=0)
     image = models.ImageField(upload_to="media/book", null=True, blank=True)
 
 
-    def __unicode__(self):
+    def __str__(self):
 
         """
             Returns the display of the book
