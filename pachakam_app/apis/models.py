@@ -30,7 +30,7 @@ class Dish(models.Model):
     
     name = models.CharField(max_length=150,unique=True)
     total_time = models.FloatField()
-    image = models.ImageField(upload_to="media",blank=True, null=True)
+    image = models.ImageField(blank=True, null=True)
     type_choice = ((0, "vegeterian"),(1, "non-vegeterian"),(2,"eggiterian"))
     category = models.IntegerField(default=0,choices=type_choice)
     book = models.ForeignKey('appuser.Kitchen', on_delete=models.CASCADE)

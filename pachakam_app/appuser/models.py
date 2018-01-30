@@ -46,7 +46,7 @@ class Kitchen(models.Model):
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     like = models.IntegerField(default=0)
     dislike = models.IntegerField(default=0)
-    image = models.ImageField(upload_to="media/book", null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
 
 
     def __str__(self):
